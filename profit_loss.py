@@ -55,14 +55,10 @@ with fp_cwd.open(mode='w', encoding='UTF-8') as file:
         file.write("[NET PROFIT DEFICIT] NET PROFIT ON EACH DAY IS LOWER THAN PREVIOUS DAY\n")
         file.write(f"[HIGHEST NET PROFIT DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
     else:
-        file.write("[NET PROFIT MIXED] NET PROFIT ON DAYS ARE HIGHER OR LOWER THAN PREVIOUS DAY\n")
-        file.write(f"[HIGHEST NET PROFIT SURPLUS] DAY: {daymost}, AMOUNT: {int(valuemost)}\n")
-        file.write(f"[HIGHEST NET PROFIT DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
-
-    for value in alldiff:
-        day = value[0]
-        diff = value[1]
-        if diff < 0:
-            diff = abs(diff)
-            diff = int(diff)
-            file.write(f"[PROFIT DEFICIT] DAY: {day}, AMOUNT: USD{diff}\n")
+        for value in alldiff:
+            day = value[0]
+            diff = value[1]
+            if diff < 0:
+                diff = abs(diff)
+                diff = int(diff)
+                file.write(f"[PROFIT DEFICIT] DAY: {day}, AMOUNT: USD{diff}\n")

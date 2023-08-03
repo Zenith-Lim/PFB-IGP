@@ -26,17 +26,17 @@ for value in COHrecords:
     cohdiffs.append((day, diff))
     previouscoh=coh
 
-daymost, valuemost = cohdiffs[0]
+daymostcoh, valuemostcoh = cohdiffs[0]
 
 for day, value in cohdiffs[0:]:
-    if value > valuemost:
-        daymost, valuemost = day, value
+    if value > valuemostcoh:
+        daymostcoh, valuemostcoh = day, value
 
-dayleast, valueleast = cohdiffs[0]
+dayleastcoh, valueleastcoh = cohdiffs[0]
 for day, value in cohdiffs[0:]:
-    if value < valueleast:
-        dayleast, valueleast = day, value
-valueleast=abs(valueleast)
+    if value < valueleastcoh:
+        dayleastcoh, valueleastcoh = day, value
+valueleastcoh=abs(valueleastcoh)
 
 positivevalues=0
 negativevalues=0
@@ -53,19 +53,15 @@ fp_cwd.touch()
 with fp_cwd.open(mode='w', encoding='UTF-8') as file:
     if positivevalues == len(cohdiffs):
         file.write("[CASH SURPLUS] CASH ON EACH DAY IS HIGHER THAN PREVIOUS DAY\n")
-        file.write(f"[HIGHEST CASH SURPLUS] DAY: {daymost}, AMOUNT: {int(valuemost)}\n")
+        file.write(f"[HIGHEST CASH SURPLUS] DAY: {daymostcoh}, AMOUNT: {int(valuemostcoh)}\n")
     elif negativevalues == len(cohdiffs):
         file.write("[CASH DEFICIT] CASH ON EACH DAY IS LOWER THAN PREVIOUS DAY\n")
-        file.write(f"[HIGHEST CASH DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
+        file.write(f"[HIGHEST CASH DEFICIT] DAY: {dayleastcoh}, AMOUNT: {int(valueleastcoh)}\n")
     else:
-        file.write("[CASH MIXED] CASH ON DAYS ARE HIGHER OR LOWER THAN PREVIOUS DAY\n")
-        file.write(f"[HIGHEST CASH SURPLUS] DAY: {daymost}, AMOUNT: {int(valuemost)}\n")
-        file.write(f"[HIGHEST CASH DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
-
-    for value in cohdiffs:
-        day = value[0]
-        diff = value[1]
-        if diff < 0:
-            diff = abs(diff)
-            diff = int(diff)
-            file.write(f"[CASH DEFICIT] DAY: {day}, AMOUNT: USD{diff}\n")
+        for value in cohdiffs:
+            day = value[0]
+            diff = value[1]
+            if diff < 0:
+                diff = abs(diff)
+                diff = int(diff)
+                file.write(f"[CASH DEFICIT] DAY: {day}, AMOUNT: USD{diff}\n")
