@@ -23,16 +23,16 @@ for expense, value in overhead_records:
     percentage = (value/total_expense_value)*100
     overhead_percentages.append([expense, percentage])
 
-expensemost, valuemost = overhead_percentages[0]
+expensemost, expensevaluemost = overhead_percentages[0]
 
 for expense, value in overhead_percentages[0:]:
-    if value > valuemost:
-        expensemost, valuemost = expense, value
+    if value > expensevaluemost:
+        expensemost, expensevaluemost = expense, value
 
 fp_cwd = Path.cwd()/'summary_report.txt'
 fp_cwd.touch()
 
-with fp_cwd.open(mode='w', encoding='UTF-8') as file:
-    file.write(f'[HIGHEST OVERHEAD] {expensemost}: {round(valuemost,2)}%')
+with fp_cwd.open(mode='a', encoding='UTF-8') as file:
+    file.write(f'[HIGHEST OVERHEAD] {expensemost}: {round(expensevaluemost,2)}%')
 
 
