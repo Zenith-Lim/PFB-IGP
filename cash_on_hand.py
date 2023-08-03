@@ -28,7 +28,23 @@ for day, difference in COHDiff.items():
         highest_incre_day = day
         highest_incre_cash = difference
 
-print(f"Difference in Cash-on-Hand: {COHDiff}")
+
 print("Day and Amount with the Highest Increment:")
 print("Day:", highest_incre_day)
 print("Amount:", highest_incre_cash)
+
+lower_cash_days = []
+
+for i in range(1, len(COHrecords)):
+    date, cash = COHrecords[i]
+    prev_date, prev_cash = COHrecords[i - 1]
+
+    difference = cash - prev_cash
+
+    if difference < 0:
+        lower_cash_days.append((date, cash, difference))
+
+print("Days where the Current Day is Lower than the Previous Day:")
+for date, cash, difference in lower_cash_days:
+    print(f"Date: {date}, Cash on Hand: {cash}, diff: {difference}")
+
