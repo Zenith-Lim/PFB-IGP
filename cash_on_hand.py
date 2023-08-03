@@ -7,44 +7,62 @@ COHrecords = []
 
 with fp.open(mode="r", encoding="UTF-8", newline="") as file:
     reader = csv.reader(file)
-    next(reader)  # Skip the header row
+    next(reader)
 
     for row in reader:
         COHrecords.append((row[0], float(row[1])))
 
-COHDiff = {}
-prev_cash = 0
+cohdiffs=[]
 
-for day, cash in COHrecords:
-    if prev_cash != 0:
-        COHDiff[day] = cash - prev_cash
-    prev_cash = cash
+previouscoh=0
 
-highest_incre_day = 0
-highest_incre_cash = 0
+for value in COHrecords:
+    day=value[0]
+    coh=value[1]
+    diff=coh-previouscoh
+    cohdiffs.append((day, diff))
+    previouscoh=coh
 
-for day, difference in COHDiff.items():
-    if difference > highest_incre_cash:
-        highest_incre_day = day
-        highest_incre_cash = difference
+daymost, valuemost = cohdiffs[0]
 
+for day, value in cohdiffs[0:]:
+    if value > valuemost:
+        daymost, valuemost = day, value
 
-print("[CASH SURPLUS] CASH ON EACH DAY IS HIGHER THAN THE PREVIOUS DAY")
-print(f"[HIGHEST CASH SURPLUS] DAY: {highest_incre_day},AMOUNT: USD{highest_incre_cash}")
+dayleast, valueleast = cohdiffs[0]
+for day, value in cohdiffs[0:]:
+    if value < valueleast:
+        dayleast, valueleast = day, value
+valueleast=abs(valueleast)
 
-lower_cash_days = []
+positivevalues=0
+negativevalues=0
 
-for items in range(1, len(COHrecords)):
-    date, cash = COHrecords[items]
-    prev_date, prev_cash = COHrecords[items - 1]
+for day, value in cohdiffs:
+    if value >= 0:
+        positivevalues += 1
+    else:
+        negativevalues += 1
 
-    difference = cash - prev_cash
+fp_cwd = Path.cwd()/'summary_report.txt'
+fp_cwd.touch()
 
-    if difference < 0:
-        lower_cash_days.append((date, cash, difference))
-    
+with fp_cwd.open(mode='w', encoding='UTF-8') as file:
+    if positivevalues == len(cohdiffs):
+        file.write("[CASH SURPLUS] CASH ON EACH DAY IS HIGHER THAN PREVIOUS DAY\n")
+        file.write(f"[HIGHEST CASH SURPLUS] DAY: {daymost}, AMOUNT: {int(valuemost)}\n")
+    elif negativevalues == len(cohdiffs):
+        file.write("[CASH DEFICIT] CASH ON EACH DAY IS LOWER THAN PREVIOUS DAY\n")
+        file.write(f"[HIGHEST CASH DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
+    else:
+        file.write("[CASH MIXED] CASH ON DAYS ARE HIGHER OR LOWER THAN PREVIOUS DAY\n")
+        file.write(f"[HIGHEST CASH SURPLUS] DAY: {daymost}, AMOUNT: {int(valuemost)}\n")
+        file.write(f"[HIGHEST CASH DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
 
-for date, cash, difference in lower_cash_days:
-    print(f"[CASH DEFICIT] DAY: {date}, AMOUNT: USD{difference*-1}")
-    
-    
+    for value in cohdiffs:
+        day = value[0]
+        diff = value[1]
+        if diff < 0:
+            diff = abs(diff)
+            diff = int(diff)
+            file.write(f"[CASH DEFICIT] DAY: {day}, AMOUNT: USD{diff}\n")
