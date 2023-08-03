@@ -7,22 +7,25 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
     total_expense_value = 0
     for row in reader: 
         expense_type = row[0]
-        expense_amount = int(row[1].replace(",", ""))
-        total_expense_value += expense_amount 
+        expense_amount = float(row[1].replace(",", ""))
+        total_expense_value += expense_amount
         overhead_records.append([expense_type, expense_amount])
-print(overhead_records)
-print(total_expense_value)
-#for type in overhead_records: 
-    #percentage = (int(type[1]) / int(total_expense_value))
-    #percentage = percentage * 100
-    #overhead_records.append(percentage)
 
+overhead_percentages=[]
+for expense, value in overhead_records: 
+    percentage = (value/total_expense_value)*100
+    overhead_percentages.append([expense, percentage])
 
-# value = 0
-# for expense in overhead_records: 
-    # expense = overhead_records[0]
-    # number = overhead_records[1]
-    # if number > value:
-        # value = number  
+expensemost, valuemost = overhead_percentages[0]
+
+for expense, value in overhead_percentages[0:]:
+    if value > valuemost:
+        expensemost, valuemost = expense, value
+
+fp_cwd = Path.cwd()/'summary_report.txt'
+fp_cwd.touch()
+
+with fp_cwd.open(mode='w', encoding='UTF-8') as file:
+    file.write(f'[HIGHEST OVERHEAD] {expensemost}: {round(valuemost,2)}%')
 
 
