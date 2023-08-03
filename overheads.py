@@ -18,21 +18,20 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
         total_expense_value += expense_amount
         overhead_records.append([expense_type, expense_amount])
 
-overhead_percentages=[]
-for expense, value in overhead_records: 
-    percentage = (value/total_expense_value)*100
-    overhead_percentages.append([expense, percentage])
+def overheads_function():
+    overhead_percentages=[]
+    for expense, value in overhead_records: 
+        percentage = (value/total_expense_value)*100
+        overhead_percentages.append([expense, percentage])
+    
+    expensemost, expensevaluemost = overhead_percentages[0]
+    
+    for expense, value in overhead_percentages[0:]:
+        if value > expensevaluemost:
+            expensemost, expensevaluemost = expense, value
 
-expensemost, expensevaluemost = overhead_percentages[0]
-
-for expense, value in overhead_percentages[0:]:
-    if value > expensevaluemost:
-        expensemost, expensevaluemost = expense, value
-
-fp_cwd = Path.cwd()/'summary_report.txt'
-fp_cwd.touch()
-
-with fp_cwd.open(mode='a', encoding='UTF-8') as file:
-    file.write(f'[HIGHEST OVERHEAD] {expensemost}: {round(expensevaluemost,2)}%')
-
-
+    fp_cwd = Path.cwd()/'summary_report.txt'
+    fp_cwd.touch()
+    
+    with fp_cwd.open(mode='w', encoding='UTF-8') as file:
+        file.write(f'[HIGHEST OVERHEAD] {expensemost}: {round(expensevaluemost,2)}%\n')
