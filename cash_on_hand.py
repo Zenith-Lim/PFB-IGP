@@ -1,19 +1,22 @@
 from pathlib import Path
 import csv
 
+# create a file to csv file
 fp = Path.cwd() / "csv_reports" / "Cash_on_Hand.csv"
 
+#create an empty list to store cash on hand record
 COHrecords = []
-
+#read the CSV file to append day and cash on hand from the csv
 with fp.open(mode="r", encoding="UTF-8", newline="") as file:
     reader = csv.reader(file)
-    next(reader)
+    next(reader) #skip header
 
+#append cash on hand record into the COHrecords
     for row in reader:
         COHrecords.append((row[0], float(row[1])))
 
 cohdiffs=[]
-
+#creating an empty list
 previouscoh=0
 
 for value in COHrecords:
