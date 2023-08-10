@@ -51,4 +51,4 @@ def overheads_function():
     #The return value of fp_cwd.open() assigned to the variable name 'file'
     with fp_cwd.open(mode='w', encoding='UTF-8') as file:
         #.write() to write the f-string for highest overhead in the summary_report.txt file
-        file.write(f'[HIGHEST OVERHEAD] {expensemost}: {round(expensevaluemost,2)}%\n')
+        file.write(f'[HIGHEST OVERHEAD] {expensemost.upper()}: {round(expensevaluemost,2)}%\n')
