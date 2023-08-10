@@ -16,6 +16,7 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
     for row in reader:
         #get the day, sale, trading profit, operating expense and net profit for each record
         #and append the profitandloss list
+        #int() and float() for calculations, int() for day as it's whole number
         profitandloss.append([int(row[0]), float(row[1]), float(row[2]), float(row[3]), float(row[4])])
 
 #create function to find out profit and loss trend (deficit, surplus or both), calculate and write the breakdowns for all 3 situations
@@ -37,7 +38,7 @@ def profitloss_function():
     for value in profitandloss:
         #setting the individual days in the profitandloss list to temporary variable day
         day=value[0]
-        #setting the individual net profits in the COHrecords list to temporary variable netprofit
+        #setting the individual net profits in the profitandloss list to temporary variable netprofit
         netprofit=value[4]
         #calculate the difference between current day net profit and previous day's
         diff=netprofit-previousnetprofit
@@ -83,10 +84,8 @@ def profitloss_function():
             #...add 1 into the negativevalues counter
             negativevalues += 1
     
-    #create a file path pointing to 'summary_report.txt' file the current working directory, stored as temporary variable 'fp_cwd'
+    #create a file path pointing to 'summary_report.txt' file in the current working directory, stored as temporary variable 'fp_cwd'
     fp_cwd = Path.cwd()/'summary_report.txt'
-    #.touch() creates the new 'summary_report.txt' file in the current working directory file path.
-    fp_cwd.touch()
     #with statement with mode='a' to append the calculated info into the summary_report.txt file with UTF-8 character encoding
     #The return value of fp_cwd.open() assigned to the variable name 'file'
     with fp_cwd.open(mode='a', encoding='UTF-8') as file:
@@ -99,7 +98,7 @@ def profitloss_function():
         #however, if all values in cohdiffs are negative
         elif negativevalues == len(alldiff):
             #.write() to write the following lines into the summary_report.txt file
-            #f-string for lowest net profit surplus in the summary_report.txt file
+            #f-string for highest net profit deficit in the summary_report.txt file
             file.write("[NET PROFIT DEFICIT] NET PROFIT ON EACH DAY IS LOWER THAN PREVIOUS DAY\n")
             file.write(f"[HIGHEST NET PROFIT DEFICIT] DAY: {dayleast}, AMOUNT: {int(valueleast)}\n")
         #otherwise (if the values in alldiff are mixed)
@@ -118,3 +117,5 @@ def profitloss_function():
                     diff = int(diff)
                     #.write() to write the f-string for all profit deficits in the summary_report.txt file
                     file.write(f"[PROFIT DEFICIT] DAY: {day}, AMOUNT: USD{diff}\n")
+    #close the file after writing
+    file.close()

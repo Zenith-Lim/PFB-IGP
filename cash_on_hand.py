@@ -14,6 +14,7 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
     #append cash on hand record into the COHrecords
     for row in reader:
         #get the day and cash on hand for each record and append the COHrecords list
+        #float() for calculations
         COHrecords.append((row[0], float(row[1])))
 
 #create function to find out cash on hand trend (deficit, surplus or both), calculate and write the breakdowns for all 3 situations
@@ -80,10 +81,8 @@ def coh_function():
             #...add 1 into the negativevalues counter
             negativevalues += 1
 
-    #create a file path pointing to 'summary_report.txt' file the current working directory, stored as temporary variable 'fp_cwd'
+    #create a file path pointing to 'summary_report.txt' file in the current working directory, stored as temporary variable 'fp_cwd'
     fp_cwd = Path.cwd()/'summary_report.txt'
-    #.touch() creates the new 'summary_report.txt' file in the current working directory file path.
-    fp_cwd.touch()
     #with statement with mode='a' to append the calculated info into the summary_report.txt file with UTF-8 character encoding
     #The return value of fp_cwd.open() assigned to the variable name 'file'
     with fp_cwd.open(mode='a', encoding='UTF-8') as file:
@@ -96,7 +95,7 @@ def coh_function():
         #however, if all values in cohdiffs are negative
         elif negativevalues == len(cohdiffs):
             #.write() to write the following lines into the summary_report.txt file
-            #f-string for lowest cash surplus in the summary_report.txt file
+            #f-string for highest cash deficit in the summary_report.txt file
             file.write("[CASH DEFICIT] CASH ON EACH DAY IS LOWER THAN PREVIOUS DAY\n")
             file.write(f"[HIGHEST CASH DEFICIT] DAY: {dayleastcoh}, AMOUNT: {int(valueleastcoh)}\n")
         #otherwise (if the values in cohdiffs are mixed)

@@ -15,7 +15,7 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
         # setting expense_type to the first index item in the temporary variable row 
         expense_type = row[0]
         # converting the second index item in the temporary variable row into a float and then storing it under the variable called expense amount
-        # use .replace to remove the "," to be able to convert to float
+        # use .replace to remove the "," to be able to convert to float for calculations
         expense_amount = float(row[1].replace(",", ""))
         # accumulate expense amounts
         total_expense_value += expense_amount
@@ -52,7 +52,7 @@ def overheads_function():
             # ...change the "expensemost" and "expensevaluemost" variables to store the new highest percentage and expense type associated
             expensemost, expensevaluemost = expense, value
 
-    #create a file path pointing to 'summary_report.txt' file the current working directory, stored as temporary variable 'fp_cwd'
+    #create a file path pointing to 'summary_report.txt' file in the current working directory, stored as temporary variable 'fp_cwd'
     fp_cwd = Path.cwd()/'summary_report.txt'
     #.touch() creates the new 'summary_report.txt' file in the current working directory file path.
     fp_cwd.touch()
