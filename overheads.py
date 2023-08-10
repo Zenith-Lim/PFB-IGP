@@ -24,6 +24,15 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
 
 # create function to calculate and write highest overhead
 def overheads_function():
+    """
+    1. Objective:
+    - To calculate the percentage of a certain overhead as compared to the overall overheads
+    - To find the highest overhead from the individual percentages
+    - To write final statements into a summary text file
+
+    2. Parameters:
+    - No parameters needed
+    """
     # create empty list to store calculated percentages for overheads
     overhead_percentages=[]
     # for loop to iterate over the overhead_records list

@@ -18,6 +18,15 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
 
 #create function to find out cash on hand trend (deficit, surplus or both), calculate and write the breakdowns for all 3 situations
 def coh_function():
+    """
+    1. Objective:
+    - To decipher whether there's a cash surplus, deficit or both for all business days given
+    - To get highest cash surplus, lowest cash deficit or all cash deficits for the respective situations
+    - To write final statements into a summary text file
+
+    2. Parameters:
+    - No parameters needed
+    """
     #create empty list to store calculated differences of cash on hands
     cohdiffs=[]
     #setting the variable previouscoh to 0 to store previous day cash on hands 

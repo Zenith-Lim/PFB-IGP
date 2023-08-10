@@ -20,6 +20,15 @@ with fp.open(mode="r", encoding="UTF-8", newline="") as file:
 
 #create function to find out profit and loss trend (deficit, surplus or both), calculate and write the breakdowns for all 3 situations
 def profitloss_function():
+    """
+    1. Objective:
+    - To decipher whether there's a net profit surplus, deficit or both for all business days given
+    - To get highest net profit surplus, lowest net profit deficit or all profit deficits for the respective situations
+    - To write final statements into a summary text file
+
+    2. Parameters:
+    - No parameters needed
+    """
     #create empty list to store calculated differences of net profits
     alldiff=[]
     #setting the variable previousnetprofit to 0 to store previous day net profits
